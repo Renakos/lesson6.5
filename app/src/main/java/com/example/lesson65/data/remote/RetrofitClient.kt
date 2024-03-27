@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://rickandmortyapi.com/"
+    private const val BASE_URL = "https://rickandmortyapi.com/api/"
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(
