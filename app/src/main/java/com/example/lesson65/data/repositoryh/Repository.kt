@@ -16,7 +16,7 @@ class Repository {
         }
     }
 
-    suspend fun getLocations() = flow {
+    fun getLocations() = flow {
         try {
             emit(apiService.getLocations().results)
         } catch (e: Exception) {
