@@ -9,6 +9,7 @@ import com.example.lesson65.data.remote.mainmodel.CharacterAndLocationModel
 import com.example.lesson65.data.remote.model.ResultItemCharacter
 import com.example.lesson65.data.remote.modellocation.ResultItemLocation
 import com.example.lesson65.data.repositoryh.Repository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
@@ -22,13 +23,15 @@ class MainViewModel : ViewModel() {
 
     private fun loadDataCharacters() {
         viewModelScope.launch {
-            repository.getCharacters().collect { charactersList ->
-                repository.getLocations().collect {
-                    if (charactersList != null) {
-                        if (it != null) {
-                            connectList(charactersList, it)
-                        }
-                    }
+            val characters = async {
+                repository.getCharacter()
+            }
+            val location = async {
+                repository.getLocation()
+            }
+            characters.await().results?.let { characters ->
+                location.await().results?.let { locations ->
+                    connectList(characters,locations)
                 }
             }
         }
